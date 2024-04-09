@@ -19,5 +19,5 @@ Aims of this study:
 1. Download files BedsGermany.csv, BedsState.csv, Pythonscript_covid.py from github and covid___de.csv from sourse [COVID-19 Tracking Germany](https://www.kaggle.com/datasets/headsortails/covid19-tracking-germany).
 2. Open Pythonscript_covid.py with the one of the development environment (Spyder, Jupyter Notebook or Visual Studio Code).
 The program was written in Python version  3.11.5.
-3. Install the next python libraries: numpy,  pandas, matplotlib, seaborn.
-4. Correct the file paths.
+3. Install the next python libraries: pandas, matplotlib, seaborn.
+4. Correct the file paths. The file paths should be replaced with actual data.
