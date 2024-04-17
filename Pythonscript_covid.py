@@ -1,11 +1,10 @@
-
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sb
 import os
 
 
-def load_df_from_file (path_to_file):
+def load_df_from_file (path_to_file):  
     if not os.path.exists(path_to_file):
         print('File cannot be opened: ', path_to_file )
         exit()
@@ -13,16 +12,17 @@ def load_df_from_file (path_to_file):
     fhand = pd.read_csv(path_to_file, delimiter=',')
     return fhand   
 
-# Statistik of hospital and beds in Germany
+# Statistik of hospitals and beds in Germany
 
-beds = load_df_from_file('Path to BedsGermany.csv')    
+beds = load_df_from_file('Path to the file BedsGermany.csv')  # Enter own path to file
 
 # drop: Delete columns
 beds_drop = beds.drop(columns = ['Betten je 100.000 Einwohner', 'Patienten je 100.000 Einwohner',
                                  'Berechnungs-/Belegungstage -1000', 'Durchschnittliche Bettenauslastung-Prozent'])
 
 #  Renaming
-beds = beds_drop.rename(columns = {' Jahr':'year', 'Krankenhäuser': 'hospital', 'Betten': 'bed', 'Patienten':'patient', 'Durchschnittliche Verweildauer -Tage':'avarege_days'})
+beds = beds_drop.rename(columns = {' Jahr':'year', 'Krankenhäuser': 'hospital', 'Betten': 'bed',
+                                   'Patienten':'patient', 'Durchschnittliche Verweildauer -Tage':'avarege_days'})
 
 # Calculate reduction of hospitals and beds in Germany
 value_hospital2010 = beds['hospital'].iloc[0]
@@ -36,8 +36,8 @@ print()
 
 # Covid file
 
-df = load_df_from_file('Path to Covid_de.csv')
-df.info() # we see, that date has object as Dtype
+df = load_df_from_file('Path to the file Covid_de.csv') # Enter own path to file
+df.info() # we could see, that date has object as Dtype
 print()
 
 df.date= pd.to_datetime(df.date)
@@ -63,7 +63,6 @@ first_day = pd.to_datetime('2020-03-01')
 last_day = pd.to_datetime('2022-02-28')
 
 datelist = pd.date_range(start = first_day, end = last_day).tolist()
-
 
 # create two subplots
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
@@ -128,34 +127,35 @@ print()
 
 df_state = df_new[['state','cases']].copy()
 covid_by_state = df_state.groupby('state').sum()
-covid_by_state = covid_by_state.assign(cases_in_thousand = lambda x: round((covid_by_state['cases'])/ 1000, 1))
-covid_by_state.sort_values('cases_in_thousand', ascending= False, inplace=True)
+covid_by_state = covid_by_state.assign(cases_in_thousands = lambda x: round((covid_by_state['cases'])/ 1000, 1))
+covid_by_state.sort_values('cases_in_thousands', ascending= False, inplace=True)
 print('The covid cases by states:')
 print(covid_by_state)
-print()
-sb.barplot(x=covid_by_state.cases_in_thousand, y=covid_by_state.index, palette="Spectral")
+print() 
+sb.barplot(x=covid_by_state.cases_in_thousands, y=covid_by_state.index, palette="Spectral")
 plt.title("Cases by states")
 plt.show()
 
 
 # Beds in states
 
-bed_state = load_df_from_file('Path to BedsState.csv')
+bed_state = load_df_from_file('Path to the file BedsState.csv')  # Enter own path to the file
 print('The beds in the each state:')
 print(bed_state)
 print()
 
 bed_state = bed_state.iloc [1: , :]
+bed_state = bed_state.assign(beds_in_thousands = lambda x: round((bed_state['bed'])/ 1000, 1))
 bed_state.sort_values('bed', ascending= False, inplace=True)
 
 state = bed_state['state'].tolist()  
-bed = bed_state['bed'].tolist()  
+bed = bed_state['beds_in_thousands'].tolist()  
 sb.barplot(x=bed, y=state, palette="Spectral") 
 
 plt.title('Beds in hospitals by states', fontsize=15)
-plt.xlabel('state',fontsize=10)
-plt.ylabel('bed',fontsize=10)
-
+plt.xlabel('beds_in _thousands',fontsize=10)
+plt.ylabel('state',fontsize=10)
+plt.show()
 
 
 # Nordrhein-Westfalen

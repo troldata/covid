@@ -21,3 +21,7 @@ Aims of this study:
 The program was written in Python version  3.11.5.
 3. Install the next python libraries: pandas, matplotlib, seaborn.
 4. Correct the file paths. The file paths should be replaced with actual data.
+
+## Results
+
+The description of the problem, the methods and the results are presented in the report (file Covid_report_de.pdf in German).
